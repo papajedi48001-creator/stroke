@@ -7,5 +7,20 @@
     "build": "next build",
     "lint": "next lint",
     "test": "vitest run"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "@stroke/shared": "workspace:*",
+    "argon2": "^0.45.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "prisma": "^6.19.3",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
   }
 }

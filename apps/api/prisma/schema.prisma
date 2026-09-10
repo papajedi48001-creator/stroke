@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PARTICIPANT
+  NURSE
+  ADMIN
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+}
+
+enum MedicationStatus {
+  TAKEN
+  MISSED
+  NOT_APPLICABLE
+}
+
+enum FollowUpPoint {
+  T0
+  POST_ER
+  DAY_30
+  DAY_90
+}
+
+model User {
+  id               String                        @id @default(uuid()) @db.Char(36)
+  email            String                        @unique @db.VarChar(254)
+  passwordHash     String                        @db.VarChar(255)
+  displayName      String                        @db.VarChar(160)
+  role             Role
+  isActive         Boolean                       @default(true)
+  createdAt        DateTime                      @default(now())
+  updatedAt        DateTime                      @updatedAt
+  participant      ParticipantProfile?
+  nurseAssignments NurseParticipantAssignment[]  @relation("NurseAssignments")
+  nurseFeedback    NurseFeedback[]               @relation("FeedbackAuthor")
+  auditLogs        AuditLog[]                    @relation("AuditActor")
+  sessions         Session[]
+}
+
+model ParticipantProfile {
+  id                 String                       @id @default(uuid()) @db.Char(36)
+  userId             String                       @unique @db.Char(36)
+  enrolmentDate      DateTime                     @default(now())
+  programmeStatus    String                       @default("ACTIVE") @db.VarChar(32)
+  createdAt          DateTime                     @default(now())
+  updatedAt          DateTime                     @updatedAt
+  user               User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  assignments        NurseParticipantAssignment[] @relation("ParticipantAssignments")
+  riskProfile        RiskProfile?
+  goals              Goal[]
+  dailyChecks        DailyCheck[]
+  followUps          FollowUpAssessment[]
+  feedback           NurseFeedback[]
+  reminders          Reminder[]
+  obstaclePlans      ObstaclePlan[]
+
+  @@index([programmeStatus])
+}
+
+model NurseParticipantAssignment {
+  id            String             @id @default(uuid()) @db.Char(36)
+  nurseId       String             @db.Char(36)
+  participantId String             @db.Char(36)
+  isActive      Boolean            @default(true)
+  assignedAt    DateTime           @default(now())
+  endedAt       DateTime?
+  nurse         User               @relation("NurseAssignments", fields: [nurseId], references: [id], onDelete: Cascade)
+  participant   ParticipantProfile @relation("ParticipantAssignments", fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@unique([nurseId, participantId, isActive])
+  @@index([participantId, isActive])
+}
+
+model RiskProfile {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @unique @db.Char(36)
+  factors       Json
+  notes         String?            @db.Text
+  assessedAt    DateTime           @default(now())
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+}
+
+model Goal {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @db.Char(36)
+  title         String             @db.VarChar(160)
+  behavior      String             @db.Text
+  frequency     Int
+  targetDate    DateTime
+  status        GoalStatus         @default(ACTIVE)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  obstaclePlans ObstaclePlan[]
+
+  @@index([participantId, status, targetDate])
+}
+
+model ObstaclePlan {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @db.Char(36)
+  goalId        String?            @db.Char(36)
+  trigger       String             @db.Text
+  response      String             @db.Text
+  createdAt     DateTime           @default(now())
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  goal          Goal?              @relation(fields: [goalId], references: [id], onDelete: SetNull)
+
+  @@index([participantId, createdAt])
+}
+
+model DailyCheck {
+  id               String             @id @default(uuid()) @db.Char(36)
+  participantId    String             @db.Char(36)
+  checkDate        DateTime           @db.Date
+  confidence       Int
+  activityMinutes  Int?
+  systolicBp       Int?
+  diastolicBp      Int?
+  medicationStatus MedicationStatus?
+  note             String?            @db.Text
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  participant      ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, checkDate])
+  @@index([participantId, createdAt])
+}
+
+model FollowUpAssessment {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @db.Char(36)
+  point         FollowUpPoint
+  dueDate       DateTime
+  completedAt   DateTime?
+  answers       Json?
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, point])
+  @@index([dueDate, completedAt])
+}
+
+model NurseFeedback {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @db.Char(36)
+  nurseId       String             @db.Char(36)
+  body          String             @db.Text
+  createdAt     DateTime           @default(now())
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  nurse         User               @relation("FeedbackAuthor", fields: [nurseId], references: [id], onDelete: Cascade)
+
+  @@index([participantId, createdAt])
+}
+
+model Reminder {
+  id            String             @id @default(uuid()) @db.Char(36)
+  participantId String             @db.Char(36)
+  label         String             @db.VarChar(160)
+  schedule      String             @db.VarChar(100)
+  isEnabled     Boolean            @default(true)
+  createdAt     DateTime           @default(now())
+  participant   ParticipantProfile @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@index([participantId, isEnabled])
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Char(36)
+  userId    String   @db.Char(36)
+  tokenHash String   @unique @db.Char(64)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid()) @db.Char(36)
+  actorId    String?  @db.Char(36)
+  action     String   @db.VarChar(100)
+  entityType String   @db.VarChar(100)
+  entityId   String?  @db.Char(36)
+  summary    String?  @db.Text
+  createdAt  DateTime @default(now())
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId, createdAt])
+  @@index([entityType, entityId, createdAt])
+}

@@ -51,6 +51,17 @@
 
 ไฟล์ environment ไม่มีการบันทึกลง Git และห้ามบันทึกรหัสผ่านหรือ token ไว้ใน README
 
+### การเตรียมฐานข้อมูล MariaDB
+
+หลังจากกำหนด `DATABASE_URL` ใน `apps/api/.env.local` แล้ว ให้สร้างตารางและข้อมูลทดสอบด้วยคำสั่งต่อไปนี้
+
+```bash
+pnpm --filter @stroke/api exec prisma migrate dev --name initial_stroke_schema
+pnpm --filter @stroke/api exec prisma db seed
+```
+
+ระบบมี schema สำหรับบัญชีผู้ใช้ ผู้เข้าร่วม พยาบาล การมอบหมาย ปัจจัยเสี่ยง เป้าหมาย บันทึกรายวัน การติดตามผล และ Audit Log โดยข้อมูล seed ใช้เพื่อการพัฒนาเท่านั้น
+
 ### วิธีเปิดใช้งานต้นแบบเดิม
 
 เปิดไฟล์ `index.html` ด้วยเบราว์เซอร์ได้โดยตรง โดยไม่ต้องติดตั้งแพ็กเกจเพิ่มเติม
