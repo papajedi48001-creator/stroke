@@ -1,0 +1,11 @@
+{
+  "name": "@stroke/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "lint": "next lint",
+    "test": "vitest run"
+  }
+}

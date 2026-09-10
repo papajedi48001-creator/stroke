@@ -1,1 +1,9 @@
 .worktrees/
+node_modules/
+dist/
+.next/
+coverage/
+playwright-report/
+.env
+.env.*
+!.env.example

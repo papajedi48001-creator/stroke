@@ -1,0 +1,17 @@
+{
+  "name": "stroke",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.19.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --parallel --filter @stroke/api --filter @stroke/web dev",
+    "test": "pnpm -r test",
+    "lint": "pnpm -r lint",
+    "build": "pnpm -r build",
+    "verify:workspace": "node scripts/verify-workspace.mjs"
+  }
+}
