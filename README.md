@@ -67,6 +67,10 @@ pnpm --filter @stroke/api exec dotenv -e .env.local -- prisma db seed
 
 API รองรับ `POST /api/auth/login`, `POST /api/auth/logout` และ `GET /api/auth/me` โดย session เก็บใน cookie แบบ HTTP-only และตรวจสอบที่ฝั่ง server เท่านั้น ผู้ใช้มี 3 บทบาท: `PARTICIPANT` เข้าถึงข้อมูลของตนเอง, `NURSE` เข้าถึงเฉพาะผู้เข้าร่วมที่ได้รับมอบหมาย และ `ADMIN` สำหรับการจัดการระบบ การเข้าสู่ระบบและออกจากระบบถูกบันทึกใน Audit Log
 
+### API สำหรับผู้เข้าร่วม
+
+ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log
+
 ### วิธีเปิดใช้งานต้นแบบเดิม
 
 เปิดไฟล์ `index.html` ด้วยเบราว์เซอร์ได้โดยตรง โดยไม่ต้องติดตั้งแพ็กเกจเพิ่มเติม
