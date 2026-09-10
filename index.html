@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Stroke — พื้นที่ติดตามเป้าหมายสุขภาพประจำวัน" />
+    <title>Stroke | พื้นที่ดูแลสุขภาพ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="เมนูหลัก">
+        <a class="brand" href="#dashboard" aria-label="Stroke หน้าแรก">
+          <span class="brand-mark" aria-hidden="true"><i data-lucide="heart-pulse"></i></span>
+          <span>stroke<span class="brand-dot">.</span></span>
+        </a>
+
+        <div class="profile">
+          <div class="avatar" aria-hidden="true">ส</div>
+          <div>
+            <strong>สวัสดี คุณสมชาย</strong>
+            <span>สัปดาห์ที่ 2 จาก 8</span>
+          </div>
+        </div>
+
+        <nav>
+          <a class="nav-link active" href="#dashboard"><i data-lucide="layout-dashboard"></i>ภาพรวม</a>
+          <a class="nav-link" href="#checkin"><i data-lucide="clipboard-check"></i>บันทึกวันนี้</a>
+          <a class="nav-link" href="#goals"><i data-lucide="target"></i>เป้าหมายของฉัน</a>
+          <a class="nav-link" href="#learn"><i data-lucide="book-open"></i>คลังความรู้</a>
+        </nav>
+
+        <div class="sidebar-help">
+          <div class="help-icon"><i data-lucide="message-circle-heart"></i></div>
+          <strong>ต้องการคำแนะนำ?</strong>
+          <p>ทีมพยาบาลพร้อมดูแลคุณ</p>
+          <button class="text-button" type="button" data-message="ส่งคำขอถึงทีมพยาบาลแล้ว">ติดต่อทีมดูแล <i data-lucide="arrow-up-right"></i></button>
+        </div>
+      </aside>
+
+      <main id="dashboard">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="today-label">วันพุธที่ 10 กันยายน 2569</p>
+            <h1>ดูแลตัวเองทีละก้าว</h1>
+          </div>
+          <button class="icon-button" type="button" aria-label="การแจ้งเตือน" data-message="ยังไม่มีการแจ้งเตือนใหม่"><i data-lucide="bell"></i><span class="notification-dot"></span></button>
+        </header>
+
+        <section class="hero-card" aria-labelledby="hero-title">
+          <img src="https://images.unsplash.com/photo-1483721310020-03333e577078?auto=format&fit=crop&w=1300&q=85" alt="ผู้หญิงกำลังเดินออกกำลังกายในสวน" />
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="pill"><i data-lucide="sparkles"></i> คุณมาถูกทางแล้ว</span>
+            <h2 id="hero-title">ความสม่ำเสมอเล็ก ๆ<br />สร้างสุขภาพที่แข็งแรง</h2>
+            <p>วันนี้เหลืออีก 2 กิจกรรม เพื่อเป้าหมายของคุณ</p>
+            <a class="primary-button" href="#checkin">เริ่มบันทึกวันนี้ <i data-lucide="arrow-right"></i></a>
+          </div>
+        </section>
+
+        <section class="stat-grid" aria-label="สรุปความก้าวหน้า">
+          <article class="stat-card mint">
+            <div class="stat-icon"><i data-lucide="flame"></i></div>
+            <div><span>ต่อเนื่อง</span><strong id="streak-value">5 วัน</strong><small>เยี่ยมมาก ทำต่อไปนะ</small></div>
+          </article>
+          <article class="stat-card coral">
+            <div class="stat-icon"><i data-lucide="circle-check"></i></div>
+            <div><span>เป้าหมายสัปดาห์นี้</span><strong id="goal-value">68%</strong><small>ทำสำเร็จ 11 จาก 16 รายการ</small></div>
+          </article>
+          <article class="stat-card blue">
+            <div class="stat-icon"><i data-lucide="calendar-heart"></i></div>
+            <div><span>นัดหมายครั้งถัดไป</span><strong>16 ก.ย.</strong><small>ติดตามผลกับทีมพยาบาล</small></div>
+          </article>
+        </section>
+
+        <div class="content-grid">
+          <section class="panel daily-panel" id="checkin" aria-labelledby="checkin-title">
+            <div class="section-heading">
+              <div><p class="eyebrow">การติดตามวันนี้</p><h2 id="checkin-title">บันทึกสุขภาพประจำวัน</h2></div>
+              <span class="status-chip" id="checkin-status">ยังไม่บันทึก</span>
+            </div>
+            <form id="checkin-form">
+              <div class="field-row">
+                <label>ระดับกิจกรรม
+                  <select id="activity" required>
+                    <option value="">เลือกกิจกรรม</option>
+                    <option value="เดินหรือออกกำลังกาย 30 นาทีขึ้นไป">เดินหรือออกกำลังกาย 30 นาทีขึ้นไป</option>
+                    <option value="ขยับร่างกายเล็กน้อย">ขยับร่างกายเล็กน้อย</option>
+                    <option value="วันนี้พักผ่อน">วันนี้พักผ่อน</option>
+                  </select>
+                </label>
+                <label>การรับประทานยา
+                  <select id="medication" required>
+                    <option value="">เลือกสถานะ</option>
+                    <option value="รับประทานครบตามแผน">รับประทานครบตามแผน</option>
+                    <option value="ลืมรับประทานบางมื้อ">ลืมรับประทานบางมื้อ</option>
+                    <option value="ไม่มีรายการยาในวันนี้">ไม่มีรายการยาในวันนี้</option>
+                  </select>
+                </label>
+              </div>
+              <label class="range-label">วันนี้คุณมั่นใจในการดูแลตัวเองแค่ไหน?
+                <span><output id="confidence-value">7</output> / 10</span>
+                <input id="confidence" type="range" min="1" max="10" value="7" />
+                <div class="range-ends"><span>ยังไม่มั่นใจ</span><span>มั่นใจมาก</span></div>
+              </label>
+              <label>อยากบอกอะไรกับทีมดูแลเพิ่มเติมไหม?
+                <textarea id="note" rows="3" placeholder="เช่น วันนี้เดินได้ครบตามเป้าหมาย หรือมีอุปสรรคที่อยากปรึกษา"></textarea>
+              </label>
+              <div class="form-footer"><p><i data-lucide="lock-keyhole"></i> ข้อมูลของคุณจะถูกเก็บไว้อย่างปลอดภัย</p><button class="primary-button" type="submit">บันทึกวันนี้ <i data-lucide="check"></i></button></div>
+            </form>
+          </section>
+
+          <section class="panel progress-panel" id="goals" aria-labelledby="goals-title">
+            <div class="section-heading"><div><p class="eyebrow">เป้าหมายวันนี้</p><h2 id="goals-title">ก้าวเล็ก ๆ ของคุณ</h2></div><button class="icon-button subtle" type="button" aria-label="ดูเป้าหมายทั้งหมด" data-message="กำลังเตรียมหน้ารวมเป้าหมาย"><i data-lucide="more-horizontal"></i></button></div>
+            <div class="progress-ring-wrap"><div class="progress-ring"><span id="task-progress">1/3</span><small>สำเร็จ</small></div><p>เหลืออีกนิดเดียว<br /><strong>คุณทำได้</strong></p></div>
+            <div class="task-list" id="task-list">
+              <label class="task done"><input type="checkbox" checked /><span class="checkmark"><i data-lucide="check"></i></span><span>ดื่มน้ำอย่างน้อย 6 แก้ว</span></label>
+              <label class="task"><input type="checkbox" /><span class="checkmark"><i data-lucide="check"></i></span><span>เดิน 30 นาที</span></label>
+              <label class="task"><input type="checkbox" /><span class="checkmark"><i data-lucide="check"></i></span><span>เพิ่มผักในมื้ออาหาร</span></label>
+            </div>
+          </section>
+        </div>
+
+        <section class="learn-card" id="learn">
+          <div class="learn-icon"><i data-lucide="heart-handshake"></i></div>
+          <div><p class="eyebrow">ความรู้ประจำสัปดาห์</p><h2>รู้ทันความดันโลหิตสูง</h2><p>การติดตามค่าความดันอย่างสม่ำเสมอ ช่วยให้คุณและทีมดูแลวางแผนสุขภาพได้เหมาะกับคุณมากขึ้น</p></div>
+          <button class="outline-button" type="button" data-message="บทเรียนนี้จะพร้อมใช้งานเร็ว ๆ นี้">อ่านบทเรียน <i data-lucide="arrow-right"></i></button>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
