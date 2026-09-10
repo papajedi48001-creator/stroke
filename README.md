@@ -69,6 +69,8 @@ API รองรับ `POST /api/auth/login`, `POST /api/auth/logout` และ
 
 หน้าเว็บ React ใช้ Vite และต้องเปิดผ่าน development server ไม่ใช่ `file://` โดยเปิด API ด้วย `pnpm --filter @stroke/api dev` และเปิดเว็บด้วย `pnpm --filter @stroke/web dev` แล้วเข้าที่ `http://localhost:5173/login`
 
+API อนุญาตคำขอจาก origin ที่กำหนดใน `WEB_ORIGIN` (ค่า local เริ่มต้นคือ `http://localhost:5173`) พร้อม cookie credentials สำหรับการทดสอบหน้าเว็บกับ API คนละพอร์ต
+
 ### API สำหรับผู้เข้าร่วม
 
 ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log

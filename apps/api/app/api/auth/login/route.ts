@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 import { login, sessionCookieName, sessionCookieOptions } from "../../../../lib/auth";
 import { audit } from "../../../../lib/audit";
-import { apiError, HttpError } from "../../../../lib/http";
+import { apiError, corsPreflightResponse, HttpError, withCors } from "../../../../lib/http";
 
 export async function POST(request: Request) {
   try {
@@ -15,9 +15,11 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json({ user: result.user });
     response.cookies.set(sessionCookieName, result.token, sessionCookieOptions);
-    return response;
+    return withCors(response);
   } catch (error) {
     if (error instanceof HttpError) return apiError(error.status, error.code, error.message);
     return apiError(500, "INTERNAL_ERROR", "ไม่สามารถเข้าสู่ระบบได้ในขณะนี้");
   }
 }
+
+export const OPTIONS = corsPreflightResponse;
