@@ -56,11 +56,12 @@
 หลังจากกำหนด `DATABASE_URL` ใน `apps/api/.env.local` แล้ว ให้สร้างตารางและข้อมูลทดสอบด้วยคำสั่งต่อไปนี้
 
 ```bash
+pnpm --filter @stroke/api exec dotenv -e .env.local -- pnpm run db:bootstrap
 pnpm --filter @stroke/api exec dotenv -e .env.local -- prisma migrate dev --name initial_stroke_schema
 pnpm --filter @stroke/api exec dotenv -e .env.local -- prisma db seed
 ```
 
-คำสั่งเหล่านี้จะอ่านค่าลับจาก `apps/api/.env.local` โดยไม่แสดงหรือบันทึกค่าลง Git ระบบมี schema สำหรับบัญชีผู้ใช้ ผู้เข้าร่วม พยาบาล การมอบหมาย ปัจจัยเสี่ยง เป้าหมาย บันทึกรายวัน การติดตามผล และ Audit Log โดยข้อมูล seed ใช้เพื่อการพัฒนาเท่านั้น
+คำสั่งแรกจะสร้างฐานข้อมูล `stroke_safe` เมื่อยังไม่มีอยู่ คำสั่งทั้งหมดอ่านค่าลับจาก `apps/api/.env.local` โดยไม่แสดงหรือบันทึกค่าลง Git ระบบมี schema สำหรับบัญชีผู้ใช้ ผู้เข้าร่วม พยาบาล การมอบหมาย ปัจจัยเสี่ยง เป้าหมาย บันทึกรายวัน การติดตามผล และ Audit Log โดยข้อมูล seed ใช้เพื่อการพัฒนาเท่านั้น
 
 ### วิธีเปิดใช้งานต้นแบบเดิม
 
