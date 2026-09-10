@@ -75,6 +75,8 @@ API อนุญาตคำขอจาก origin ที่กำหนดใ�
 
 พยาบาลใช้หน้า `/nurse` เพื่อดูเฉพาะผู้เข้าร่วมที่ได้รับมอบหมาย ผ่าน API `/api/nurse/caseload` พร้อมสถานะบันทึกล่าสุดและนัดติดตามผล
 
+ทุกหน้า workspace มีปุ่มออกจากระบบ ซึ่งล้าง session cookie ผ่าน `POST /api/auth/logout` แล้วกลับสู่หน้าเข้าสู่ระบบ
+
 ### API สำหรับผู้เข้าร่วม
 
 ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log
