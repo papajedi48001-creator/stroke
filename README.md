@@ -71,6 +71,8 @@ API รองรับ `POST /api/auth/login`, `POST /api/auth/logout` และ
 
 API อนุญาตคำขอจาก origin ที่กำหนดใน `WEB_ORIGIN` (ค่า local เริ่มต้นคือ `http://localhost:5173`) พร้อม cookie credentials สำหรับการทดสอบหน้าเว็บกับ API คนละพอร์ต
 
+ผู้ดูแลระบบใช้หน้า `/admin` เพื่อดูข้อมูลบัญชีที่ไม่รวมรหัสผ่าน และมอบหมายพยาบาลให้ผู้เข้าร่วมผ่าน API `/api/admin/users` และ `/api/admin/assignments`
+
 ### API สำหรับผู้เข้าร่วม
 
 ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log
