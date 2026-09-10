@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { requireSession } from "../../../../lib/auth";
 import { audit } from "../../../../lib/audit";
 import { requireRole } from "../../../../lib/authorization";
-import { apiError, HttpError } from "../../../../lib/http";
+import { apiError, corsPreflightResponse, HttpError, withCors } from "../../../../lib/http";
 import { prisma } from "../../../../lib/prisma";
 
 export async function POST(request: Request) {
@@ -29,9 +29,11 @@ export async function POST(request: Request) {
       },
     });
     await audit(session.id, "GOAL_CREATED", "Goal", goal.id, "สร้างเป้าหมาย SMART");
-    return NextResponse.json({ goal }, { status: 201 });
+    return withCors(NextResponse.json({ goal }, { status: 201 }));
   } catch (error) {
     if (error instanceof HttpError) return apiError(error.status, error.code, error.message);
     return apiError(500, "INTERNAL_ERROR", "ไม่สามารถบันทึกเป้าหมายได้ในขณะนี้");
   }
 }
+
+export const OPTIONS = corsPreflightResponse;

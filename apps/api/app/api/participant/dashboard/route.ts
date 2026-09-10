@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { requireSession } from "../../../../lib/auth";
 import { requireRole } from "../../../../lib/authorization";
-import { apiError, HttpError } from "../../../../lib/http";
+import { apiError, corsPreflightResponse, HttpError, withCors } from "../../../../lib/http";
 import { prisma } from "../../../../lib/prisma";
 
 export async function GET() {
@@ -20,9 +20,11 @@ export async function GET() {
       },
     });
     if (!participant) return apiError(403, "FORBIDDEN", "ไม่พบข้อมูลผู้เข้าร่วมของคุณ");
-    return NextResponse.json({ participant });
+    return withCors(NextResponse.json({ participant }));
   } catch (error) {
     if (error instanceof HttpError) return apiError(error.status, error.code, error.message);
     return apiError(500, "INTERNAL_ERROR", "ไม่สามารถโหลดข้อมูลหน้าหลักได้ในขณะนี้");
   }
 }
+
+export const OPTIONS = corsPreflightResponse;
