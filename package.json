@@ -12,6 +12,10 @@
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "build": "pnpm -r build",
+    "test:e2e": "playwright test",
     "verify:workspace": "node scripts/verify-workspace.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
   }
 }

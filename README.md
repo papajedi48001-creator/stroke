@@ -85,6 +85,8 @@ API อนุญาตคำขอจาก origin ที่กำหนดใ�
 
 รัน unit tests ทุก workspace ด้วย `pnpm test` และตรวจ production builds ด้วย `pnpm build` ขณะนี้มี smoke test ตรวจเส้นทาง protected routes ของ React และ unit tests สำหรับ schema, database, authentication และ authorization ของ API
 
+สำหรับ end-to-end test ให้ติดตั้ง Chromium หนึ่งครั้งด้วย `pnpm exec playwright install chromium` แล้วรัน `pnpm test:e2e` ซึ่งจะตรวจ flow เข้าสู่ระบบของผู้เข้าร่วมจนถึง dashboard โดยใช้บัญชี seed สำหรับพัฒนา
+
 ### API สำหรับผู้เข้าร่วม
 
 ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log
