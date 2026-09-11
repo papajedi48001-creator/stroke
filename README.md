@@ -81,6 +81,10 @@ API อนุญาตคำขอจาก origin ที่กำหนดใ�
 
 ผู้เข้าร่วมใช้หน้า `/participant` เพื่อดูปัจจัยเสี่ยงที่ติดตาม เป้าหมาย และบันทึกประจำวันล่าสุดจาก dashboard ของตนเอง
 
+### การตรวจสอบระบบ
+
+รัน unit tests ทุก workspace ด้วย `pnpm test` และตรวจ production builds ด้วย `pnpm build` ขณะนี้มี smoke test ตรวจเส้นทาง protected routes ของ React และ unit tests สำหรับ schema, database, authentication และ authorization ของ API
+
 ### API สำหรับผู้เข้าร่วม
 
 ผู้เข้าร่วมที่เข้าสู่ระบบสามารถเรียก `GET /api/participant/dashboard` เพื่ออ่านข้อมูลปัจจัยเสี่ยง เป้าหมาย บันทึกล่าสุด การติดตามผล และ feedback ของตนเอง ใช้ `POST /api/participant/goals` เพื่อสร้างเป้าหมาย SMART และ `POST /api/participant/daily-checks` เพื่อบันทึกประจำวัน ระบบยึด participant profile จาก session เสมอและบันทึกการเปลี่ยนแปลงลง Audit Log
